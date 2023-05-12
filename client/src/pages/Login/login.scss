@@ -1,0 +1,36 @@
+.login {
+  height: 100vh;
+  background-color: rgb(84, 82, 126);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card {
+    width: 50%;
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    min-height: 600px;
+    overflow: hidden;
+
+    .left {
+      flex: 1;
+      background-image: linear-gradient(
+          rgba(58, 43, 28, 0.5),
+          rgba(172, 110, 69, 0.5)
+        ),
+        url("../../assets/BackgroundLoginGauche.jpeg");
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      gap: 30px;
+    }
+
+    .right {
+      flex: 1;
+      padding: 30px;
+    }
+  }
+}
