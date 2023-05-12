@@ -16,6 +16,7 @@ nav {
 
     h3 {
       font-weight: bold;
+      cursor: pointer;
     }
   }
 
@@ -29,5 +30,29 @@ nav {
     right: 0;
     cursor: pointer;
     padding-right: 35px;
+
+    p {
+      position: relative;
+    }
+    p:hover {
+      color: #6c6990;
+    }
+    p::after {
+      content: "";
+      transform-origin: 0 0;
+      transform: scaleX(0);
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      height: 0.15em;
+      background: #aeadcc;
+      z-index: -1;
+      opacity: 0.8;
+      transition: transform 0.2s;
+    }
+    p:hover::after {
+      transform: scaleX(1);
+    }
   }
 }

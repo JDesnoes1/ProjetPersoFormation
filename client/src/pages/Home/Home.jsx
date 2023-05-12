@@ -1,8 +1,11 @@
 import "./home.scss";
-import Navbar from "../../composants/Navbar/Navbar";
 
 const Home = () => {
-  return <Navbar />;
+  return (
+    <div>
+      <h1>Home page !</h1>
+    </div>
+  );
 };
 
 export default Home;
