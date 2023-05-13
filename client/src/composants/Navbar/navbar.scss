@@ -6,6 +6,11 @@ nav {
   align-items: center;
   position: fixed;
 
+  .link {
+    text-decoration: none;
+    color: black;
+  }
+
   .left {
     display: flex;
     align-items: center;
