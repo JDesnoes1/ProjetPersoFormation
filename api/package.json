@@ -1,0 +1,18 @@
+{
+  "name": "projet-formation",
+  "version": "1.0.0",
+  "description": "Api pour gerer toute la partie back de mon application de formation",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Jérémie",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
