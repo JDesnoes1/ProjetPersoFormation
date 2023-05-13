@@ -1,7 +1,33 @@
 import "./register.scss";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { makeRequest } from "../../axios";
 
 const Register = () => {
+  const [inputs, setInputs] = useState({
+    username: "",
+    email: "",
+    nom: "",
+    prenom: "",
+    ville: "",
+    password: "",
+  });
+
+  const [err, setErr] = useState(null);
+
+  const handleChange = async (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await makeRequest.post("auth/register", inputs);
+    } catch (err) {
+      setErr(err.response.data);
+    }
+  };
+
   return (
     <div className="register">
       <div className="card">
@@ -21,14 +47,55 @@ const Register = () => {
         <div className="right">
           <h3>Inscription</h3>
           <form action="">
-            <input type="text" placeholder="Nom d'utilisateur" />
-            <input type="email" placeholder="Email" />
-            <input type="test" placeholder="Nom" />
-            <input type="text" placeholder="Prénom" />
-            <input type="text" placeholder="Ville" />
-            <input type="password" placeholder="Mot de passe" />
-            <input type="password" placeholder="Confirmation mot de passe" />
-            <button>S'inscrire</button>
+            <input
+              required
+              type="text"
+              name="username"
+              placeholder="Nom d'utilisateur"
+              onChange={handleChange}
+            />
+            <input
+              required
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={handleChange}
+            />
+            <input
+              required
+              type="text"
+              name="nom"
+              placeholder="Nom"
+              onChange={handleChange}
+            />
+            <input
+              required
+              type="text"
+              name="prenom"
+              placeholder="Prénom"
+              onChange={handleChange}
+            />
+            <input
+              required
+              type="text"
+              name="ville"
+              placeholder="Ville"
+              onChange={handleChange}
+            />
+            <input
+              required
+              type="password"
+              name="password"
+              placeholder="Mot de passe"
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="mdp2"
+              placeholder="Confirmation mot de passe"
+            />
+            {err && err}
+            <button onClick={handleClick}>S'inscrire</button>
           </form>
         </div>
       </div>
