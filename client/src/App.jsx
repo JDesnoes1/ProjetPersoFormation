@@ -5,6 +5,8 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Navbar from "./composants/Navbar/Navbar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./context/authContext";
 
 function App() {
   const Layout = () => {

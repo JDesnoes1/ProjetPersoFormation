@@ -1,7 +1,35 @@
 import "./login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Login = () => {
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [err, setErr] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const { login } = useContext(AuthContext);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await login(inputs);
+      navigate("/");
+    } catch (err) {
+      setErr(err.response.data);
+    }
+  };
+
   return (
     <div className="login">
       <div className="card">
@@ -21,9 +49,20 @@ const Login = () => {
         <div className="right">
           <h3>Connexion</h3>
           <form action="">
-            <input type="text" placeholder="Nom d'utilisateur" />
-            <input type="password" placeholder="Mot de passe" />
-            <button>Se connecter</button>
+            <input
+              type="text"
+              name="username"
+              placeholder="Nom d'utilisateur"
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Mot de passe"
+              onChange={handleChange}
+            />
+            {err && err}
+            <button onClick={handleLogin}>Se connecter</button>
           </form>
           <Link to="/" className="link">
             <span>Retour à la page principale</span>
