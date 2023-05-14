@@ -1,6 +1,6 @@
 import "./register.scss";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 
 const Register = () => {
@@ -15,6 +15,8 @@ const Register = () => {
 
   const [err, setErr] = useState(null);
 
+  const navigate = useNavigate();
+
   const handleChange = async (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -23,6 +25,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await makeRequest.post("auth/register", inputs);
+      navigate("/connexion");
     } catch (err) {
       setErr(err.response.data);
     }
