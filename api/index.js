@@ -2,6 +2,7 @@ import express from "express";
 import authRoutes from "./routes/auths.js";
 import { db } from "./db.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 8500;
@@ -17,6 +18,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 
