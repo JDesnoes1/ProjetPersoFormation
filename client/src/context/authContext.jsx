@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { createContext } from "react";
 import { useState } from "react";
 import { makeRequest } from "../axios";
+import secureLocalStorage from "react-secure-storage";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
+    JSON.parse(secureLocalStorage.getItem("user")) || null
   );
 
   const login = async (inputs) => {
@@ -19,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(currentUser));
+    secureLocalStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
   return (
