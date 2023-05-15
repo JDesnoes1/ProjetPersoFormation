@@ -11,8 +11,12 @@
     flex-direction: column;
     margin-top: 50px;
     width: 93vw;
-    gap: 20vh;
+    gap: 10vh;
     min-height: 100vh;
+
+    .card3 {
+      margin-bottom: 50px;
+    }
 
     .card {
       width: 90%;
