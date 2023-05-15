@@ -2,8 +2,12 @@ import "./home.scss";
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home page !</h1>
+    <div className="home">
+      <div className="cards">
+        <div className="card"></div>
+        <div className="card"></div>
+        <div className="card"></div>
+      </div>
     </div>
   );
 };

@@ -1,11 +1,12 @@
 nav {
-  background-color: rgba(17, 67, 100, 0.5);
-  width: 100vw;
+  background-color: rgba(17, 67, 100, 1);
   height: 7vh;
   display: flex;
   align-items: center;
-  position: fixed;
   color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 
   .link {
     text-decoration: none;
