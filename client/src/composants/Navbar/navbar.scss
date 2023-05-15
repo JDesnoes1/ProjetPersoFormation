@@ -1,14 +1,15 @@
 nav {
-  background-color: bisque;
+  background-color: rgba(17, 67, 100, 0.5);
   width: 100vw;
   height: 7vh;
   display: flex;
   align-items: center;
   position: fixed;
+  color: white;
 
   .link {
     text-decoration: none;
-    color: black;
+    color: white;
   }
 
   .left {
@@ -38,9 +39,6 @@ nav {
     p {
       position: relative;
     }
-    p:hover {
-      color: #6c6990;
-    }
     p::after {
       content: "";
       transform-origin: 0 0;
@@ -50,7 +48,7 @@ nav {
       left: 0;
       right: 0;
       height: 0.15em;
-      background: #aeadcc;
+      background: white;
       z-index: -1;
       opacity: 0.8;
       transition: transform 0.2s;

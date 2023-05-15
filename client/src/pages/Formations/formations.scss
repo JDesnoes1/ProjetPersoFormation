@@ -1,0 +1,59 @@
+.formations {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(243, 219, 189, 0.6);
+
+  .cardsContainer {
+    width: 90%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .card1 {
+      margin-top: 5%;
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/card1.jpg");
+    }
+    .card2 {
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/card2.jpg");
+    }
+    .card3 {
+      margin-top: 5%;
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/card3.jpg");
+    }
+
+    .card {
+      width: 28%;
+      height: 80%;
+      border-radius: 10px;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      padding-top: 30px;
+      transition: transform 0.1s;
+      color: white;
+    }
+
+    .card:hover {
+      -ms-transform: scale(1.05);
+      -webkit-transform: scale(1.05);
+      transform: scale(1.05);
+      box-shadow: 10px 5px 5px whitesmoke;
+    }
+  }
+}
