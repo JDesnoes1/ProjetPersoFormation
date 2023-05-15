@@ -27,6 +27,10 @@
           rgba(134, 96, 71, 0.5)
         ),
         url("../../assets/card2.jpg");
+      span {
+        font-size: 23px;
+        text-decoration: line-through;
+      }
     }
     .card3 {
       margin-top: 5%;
@@ -43,17 +47,43 @@
       border-radius: 10px;
       background-size: cover;
       display: flex;
+      flex-direction: column;
+      gap: 30px;
       justify-content: center;
+      align-items: center;
       padding-top: 30px;
       transition: transform 0.1s;
       color: white;
+
+      h2 {
+        font-size: 40px;
+      }
+
+      p {
+        font-size: 26px;
+      }
+
+      button {
+        width: 50%;
+        padding: 10px;
+        border: none;
+        background-color: white;
+        color: rgba(17, 67, 100, 0.7);
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: rgba(57, 116, 155);
+        color: white;
+      }
     }
 
     .card:hover {
       -ms-transform: scale(1.05);
       -webkit-transform: scale(1.05);
       transform: scale(1.05);
-      box-shadow: 10px 5px 5px whitesmoke;
+      box-shadow: 6px 6px 6px rgba(17, 67, 100, 0.5);
     }
   }
 }
