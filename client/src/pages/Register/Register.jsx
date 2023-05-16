@@ -13,6 +13,12 @@ const Register = () => {
     password: "",
   });
 
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
   const [err, setErr] = useState(null);
 
   const navigate = useNavigate();
@@ -24,8 +30,17 @@ const Register = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await makeRequest.post("auth/register", inputs);
-      navigate("/connexion");
+      if (inputs.password === confirmPassword) {
+        await makeRequest.post("auth/register", inputs);
+        navigate("/connexion", {
+          state: {
+            successMessage:
+              "Inscription réussie, veuillez vous connecter pour acceder à toutes les les fonctionnalités du site !",
+          },
+        });
+      } else {
+        setErr("Les mots de passe ne correspondent pas");
+      }
     } catch (err) {
       setErr(err.response.data);
     }
@@ -56,6 +71,8 @@ const Register = () => {
               name="username"
               placeholder="Nom d'utilisateur"
               onChange={handleChange}
+              minLength="2"
+              maxLength="20"
             />
             <input
               required
@@ -63,6 +80,7 @@ const Register = () => {
               name="email"
               placeholder="Email"
               onChange={handleChange}
+              minLength="5"
             />
             <input
               required
@@ -70,6 +88,8 @@ const Register = () => {
               name="nom"
               placeholder="Nom"
               onChange={handleChange}
+              minLength="2"
+              maxLength="20"
             />
             <input
               required
@@ -77,6 +97,8 @@ const Register = () => {
               name="prenom"
               placeholder="Prénom"
               onChange={handleChange}
+              minLength="2"
+              maxLength="20"
             />
             <input
               required
@@ -84,6 +106,8 @@ const Register = () => {
               name="ville"
               placeholder="Ville"
               onChange={handleChange}
+              minLength="2"
+              maxLength="50"
             />
             <input
               required
@@ -91,11 +115,14 @@ const Register = () => {
               name="password"
               placeholder="Mot de passe"
               onChange={handleChange}
+              pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?\\[#?!@$%^&*-]).{8,}"
             />
             <input
               type="password"
               name="mdp2"
               placeholder="Confirmation mot de passe"
+              value={confirmPassword}
+              onChange={handleConfirmPassword}
             />
             {err && err}
             <button onClick={handleClick}>S'inscrire</button>

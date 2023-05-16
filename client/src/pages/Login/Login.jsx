@@ -1,10 +1,15 @@
 import "./login.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
 
 const Login = () => {
+  //Envoyer le message quand l'inscription réussie !
+  const location = useLocation();
+
+  const { successMessage } = location.state || {};
+
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -36,10 +41,10 @@ const Login = () => {
         <div className="left">
           <h1>L'aventure commence ici !</h1>
           <p>
-            Bienvenue sur Formation Dev ! Ici, on propose beaucoup de formations
+            Bienvenue sur Formation Dev ! Ici, on propose 3 formations
             différentes dans le developpement Web, principalement sur les
             technologies Javascript. Vous voulez devenir un developpeur
-            fullstack accomplie ? Vous êtes au bon endroit.
+            fullstack ? Vous êtes au bon endroit.
           </p>
           <span>Vous n'avez pas de compte ?</span>
           <Link to="/register">
@@ -48,6 +53,7 @@ const Login = () => {
         </div>
         <div className="right">
           <h3>Connexion</h3>
+          {successMessage && <p>{successMessage}</p>}
           <form action="">
             <input
               type="text"
