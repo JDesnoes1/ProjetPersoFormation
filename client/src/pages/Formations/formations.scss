@@ -59,6 +59,12 @@
       transition: transform 0.1s;
       color: white;
 
+      .info {
+        font-size: 10px;
+        text-decoration: none;
+        padding: 0 15px;
+      }
+
       h2 {
         font-size: 40px;
       }

@@ -13,6 +13,10 @@ const Formations = () => {
           <Link to="/formation/1" className="link">
             <button>Découvrir</button>
           </Link>
+          <span className="info">
+            Si vous n'êtes pas connecté, vous serez renvoyé à la page de
+            connexion en appuyant sur le bouton
+          </span>
         </div>
         <div className="card card2">
           <h2>Pack FullStack</h2>
@@ -23,6 +27,10 @@ const Formations = () => {
           <Link to="/formation/3" className="link">
             <button>Découvrir</button>
           </Link>
+          <span className="info">
+            Si vous n'êtes pas connecté, vous serez renvoyé à la page de
+            connexion en appuyant sur le bouton
+          </span>
         </div>
         <div className="card card3">
           <h2>Pack FrontEnd</h2>
@@ -32,6 +40,10 @@ const Formations = () => {
           <Link to="/formation/2" className="link">
             <button>Découvrir</button>
           </Link>
+          <span className="info">
+            Si vous n'êtes pas connecté, vous serez renvoyé à la page de
+            connexion en appuyant sur le bouton
+          </span>
         </div>
       </div>
     </div>
