@@ -1,0 +1,43 @@
+.apropos {
+  height: 93vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(243, 219, 189, 0.6);
+
+  .cards {
+    width: 60vw;
+    height: 75vh;
+    border-radius: 20px;
+    display: flex;
+    background-color: yellow;
+
+    .left {
+      flex: 1;
+      border-radius: 20px 0 0 20px;
+      background-color: rgba(17, 67, 100, 1);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      color: white;
+
+      p {
+        font-size: 19px;
+      }
+    }
+
+    .right {
+      flex: 1;
+      padding: 40px;
+      border-radius: 0 20px 20px 0;
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/2potes.jpg");
+      background-size: cover;
+      background-position: 30% 75%;
+    }
+  }
+}
