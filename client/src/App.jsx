@@ -5,11 +5,18 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import FormationDetails from "./pages/FormationDetails/FormationDetails";
 import Navbar from "./composants/Navbar/Navbar";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 
 function App() {
+  const { currentUser } = useContext(AuthContext);
+
   const Layout = () => {
     return (
       <div>
@@ -21,6 +28,13 @@ function App() {
     );
   };
 
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/connexion" />;
+    }
+    return children;
+  };
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -28,7 +42,14 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/formations", element: <Formations /> },
-        { path: "/formation/:id", element: <FormationDetails /> },
+        {
+          path: "/formation/:id",
+          element: (
+            <ProtectedRoute>
+              <FormationDetails />
+            </ProtectedRoute>
+          ),
+        },
         { path: "/about", element: <About /> },
       ],
     },
