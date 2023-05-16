@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./formations.scss";
 
 const Formations = () => {
@@ -9,7 +10,9 @@ const Formations = () => {
           <p>
             Prix: <span>550€</span>
           </p>
-          <button>Découvrir</button>
+          <Link to="/formation/1" className="link">
+            <button>Découvrir</button>
+          </Link>
         </div>
         <div className="card card2">
           <h2>Pack FullStack</h2>
@@ -17,14 +20,18 @@ const Formations = () => {
           <p>
             Prix: <span>1050€</span> 899.99€
           </p>
-          <button>Découvrir</button>
+          <Link to="/formation/3" className="link">
+            <button>Découvrir</button>
+          </Link>
         </div>
         <div className="card card3">
           <h2>Pack FrontEnd</h2>
           <p>
             Prix: <span>400€</span>
           </p>
-          <button>Découvrir</button>
+          <Link to="/formation/2" className="link">
+            <button>Découvrir</button>
+          </Link>
         </div>
       </div>
     </div>

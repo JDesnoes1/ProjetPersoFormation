@@ -3,6 +3,7 @@ import Formations from "./pages/Formations/Formations";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import FormationDetails from "./pages/FormationDetails/FormationDetails";
 import Navbar from "./composants/Navbar/Navbar";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { useContext } from "react";
@@ -27,6 +28,7 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/formations", element: <Formations /> },
+        { path: "/formation/:id", element: <FormationDetails /> },
         { path: "/about", element: <About /> },
       ],
     },
