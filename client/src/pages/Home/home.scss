@@ -1,28 +1,87 @@
 .home {
   background-color: rgb(243, 219, 189, 0.6);
-  min-height: 100vh;
+  min-height: 93vh;
   display: flex;
   justify-content: center;
   overflow: hidden;
 
   .cards {
     display: flex;
+    justify-content: center;
     align-items: center;
-    flex-direction: column;
-    margin-top: 50px;
-    width: 93vw;
-    gap: 10vh;
-    min-height: 100vh;
+    width: 100vw;
+    min-height: 93vh;
+    gap: 40px;
+
+    .infos {
+      width: 100%;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .card1 {
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/accesCours.jpg");
+      background-size: cover;
+    }
+
+    .card2 {
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/achatAcceuil.jpg");
+      background-size: cover;
+    }
 
     .card3 {
-      margin-bottom: 50px;
+      background-image: linear-gradient(
+          rgba(126, 96, 67, 0.5),
+          rgba(134, 96, 71, 0.5)
+        ),
+        url("../../assets/equipe.jpg");
+      background-size: cover;
     }
 
     .card {
-      width: 90%;
-      height: 80vh;
-      border-radius: 17px;
-      background-color: rgba(17, 67, 100, 0.8);
+      width: 30%;
+      height: 70vh;
+      border-radius: 13px;
+      color: white;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+
+      h2 {
+        text-decoration: underline;
+      }
+      button {
+        width: 50%;
+        padding: 10px;
+        border: none;
+        background-color: white;
+        color: rgba(17, 67, 100, 0.7);
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: rgba(57, 116, 155);
+        color: white;
+      }
+
+      span {
+        font-size: 9.5px;
+        font-weight: bold;
+      }
     }
   }
 }
