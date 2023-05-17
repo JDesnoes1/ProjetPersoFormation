@@ -10,3 +10,22 @@ export const getAchat = (req, res) => {
     return res.status(200).json(data.map((achat) => achat.id_user));
   });
 };
+
+export const addAchat = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Vous n'êtes pas connecté");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Le token n'est pas valide");
+
+    const q = "INSERT INTO achats (`id_user`, `id_formation`) VALUES (?)";
+
+    const values = [userInfo.id, req.body.formationId];
+
+    db.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+
+      return res.status(200).json("La formation a bien été achetée");
+    });
+  });
+};
