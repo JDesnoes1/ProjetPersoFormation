@@ -4,6 +4,7 @@ import { makeRequest } from "../../axios";
 
 const DetailsFormations = ({ formationId }) => {
   const [formation, setFormation] = useState(null);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
     const getFormation = async () => {
@@ -18,6 +19,14 @@ const DetailsFormations = ({ formationId }) => {
   if (!formation) {
     return <div>Loading...</div>;
   }
+
+  const handleAchat = async () => {
+    try {
+      await makeRequest.post("achat", { formationId: formationId });
+    } catch (err) {
+      setErr(err.response.data);
+    }
+  };
 
   let formationContent;
 
@@ -68,7 +77,7 @@ const DetailsFormations = ({ formationId }) => {
             <h3>
               Prix : <span>1050€</span> 899.99€
             </h3>
-            <button>ACHETER</button>
+            <button onClick={handleAchat}>ACHETER</button>
           </div>
         </div>
       </div>
@@ -116,7 +125,7 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 475€</h3>
-            <button>ACHETER</button>
+            <button onClick={handleAchat}>ACHETER</button>
           </div>
         </div>
       </div>
@@ -162,7 +171,7 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 499.99€</h3>
-            <button>ACHETER</button>
+            <button onClick={handleAchat}>ACHETER</button>
           </div>
         </div>
       </div>
