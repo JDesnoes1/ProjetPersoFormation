@@ -1,10 +1,37 @@
 import "./detailsFormation.scss";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
 
 const DetailsFormations = ({ formationId }) => {
   const [formation, setFormation] = useState(null);
   const [err, setErr] = useState(null);
+  const { currentUser } = useContext(AuthContext);
+
+  const [hasPurchased, setHasPurchased] = useState(false);
+
+  useEffect(() => {
+    const getAchats = async () => {
+      try {
+        const response = await makeRequest.get(
+          `achat?id_formation=${formationId}`
+        );
+
+        const userIds = response.data.userIds;
+        const userId = currentUser.id;
+
+        const hadPurchased = userIds.includes(userId);
+        setHasPurchased(hadPurchased);
+      } catch (err) {
+        console.error(
+          "Une erreur s'est produite lors de la récupération des achats :",
+          err
+        );
+      }
+    };
+    getAchats();
+  }, []);
 
   useEffect(() => {
     const getFormation = async () => {
@@ -23,6 +50,7 @@ const DetailsFormations = ({ formationId }) => {
   const handleAchat = async () => {
     try {
       await makeRequest.post("achat", { formationId: formationId });
+      location.reload();
     } catch (err) {
       setErr(err.response.data);
     }
@@ -77,7 +105,11 @@ const DetailsFormations = ({ formationId }) => {
             <h3>
               Prix : <span>1050€</span> 899.99€
             </h3>
-            <button onClick={handleAchat}>ACHETER</button>
+            {hasPurchased ? (
+              <p>Merci ! Rendez-vous dans "Mes Cours 😉"</p>
+            ) : (
+              <button onClick={handleAchat}>ACHETER</button>
+            )}
           </div>
         </div>
       </div>
@@ -125,7 +157,11 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 475€</h3>
-            <button onClick={handleAchat}>ACHETER</button>
+            {hasPurchased ? (
+              <p>Merci ! Rendez-vous dans "Mes Cours 😉"</p>
+            ) : (
+              <button onClick={handleAchat}>ACHETER</button>
+            )}
           </div>
         </div>
       </div>
@@ -171,7 +207,11 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 499.99€</h3>
-            <button onClick={handleAchat}>ACHETER</button>
+            {hasPurchased ? (
+              <p>Merci ! Rendez-vous dans "Mes Cours 😉"</p>
+            ) : (
+              <button onClick={handleAchat}>ACHETER</button>
+            )}
           </div>
         </div>
       </div>

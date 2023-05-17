@@ -7,7 +7,8 @@ export const getAchat = (req, res) => {
   db.query(q, [req.query.id_formation], (err, data) => {
     if (err) return res.status(500).json(err);
 
-    return res.status(200).json(data.map((achat) => achat.id_user));
+    const userIds = data.map((achat) => achat.id_user);
+    return res.status(200).json({ userIds });
   });
 };
 
