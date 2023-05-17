@@ -1,6 +1,8 @@
 import express from "express";
 import authRoutes from "./routes/auths.js";
 import formationRoutes from "./routes/formations.js";
+import achatRoutes from "./routes/achats.js";
+
 import { db } from "./db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -23,6 +25,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/formation", formationRoutes);
+app.use("/api/achat", achatRoutes);
 
 db.connect(function (err) {
   if (err) throw err;
