@@ -8,7 +8,9 @@ const Home = () => {
         <div className="card card1">
           <h2>Accès à vos cours</h2>
           <div className="infos">
-            <button>MES COURS</button>
+            <Link to="/cours">
+              <button>MES COURS</button>
+            </Link>
             <p>Accès rapide vers vos cours</p>
             <span>
               * Si vous n'êtes pas connecté, vous serez automatiquement envoyé

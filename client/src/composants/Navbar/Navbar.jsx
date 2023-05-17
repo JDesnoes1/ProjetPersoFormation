@@ -23,9 +23,14 @@ const Navbar = () => {
       </div>
       <div className="right">
         {currentUser ? (
-          <p className="deco" onClick={handleLogout}>
-            Deconnexion
-          </p>
+          <>
+            <p className="deco" onClick={handleLogout}>
+              Deconnexion
+            </p>
+            <Link to="/cours" className="link">
+              <p>Mes Cours</p>
+            </Link>
+          </>
         ) : (
           <Link to="/connexion" className="link">
             <p>Connexion</p>

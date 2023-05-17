@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import FormationDetails from "./pages/FormationDetails/FormationDetails";
+import Cours from "./pages/Cours/Cours";
 import Navbar from "./composants/Navbar/Navbar";
 import {
   createBrowserRouter,
@@ -42,6 +43,14 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/formations", element: <Formations /> },
+        {
+          path: "/cours",
+          element: (
+            <ProtectedRoute>
+              <Cours />
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "/formation/:id",
           element: (
