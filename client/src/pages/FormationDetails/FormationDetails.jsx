@@ -7,7 +7,6 @@ const FormationDetails = () => {
   return (
     <div>
       <DetailsFormations formationId={idFormation} />
-      <p>Voici la formation BackEnd !</p>
     </div>
   );
 };

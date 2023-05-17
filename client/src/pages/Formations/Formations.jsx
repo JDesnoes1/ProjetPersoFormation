@@ -8,7 +8,7 @@ const Formations = () => {
         <div className="card card1">
           <h2>Pack BackEnd</h2>
           <p>
-            Prix: <span>550€</span>
+            Prix: <span>499.99€</span>
           </p>
           <Link to="/formation/1" className="link">
             <button>Découvrir</button>
@@ -35,7 +35,7 @@ const Formations = () => {
         <div className="card card3">
           <h2>Pack FrontEnd</h2>
           <p>
-            Prix: <span>400€</span>
+            Prix: <span>475€</span>
           </p>
           <Link to="/formation/2" className="link">
             <button>Découvrir</button>
