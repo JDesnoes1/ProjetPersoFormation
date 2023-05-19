@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
 import "./cours.scss";
+import { Link } from "react-router-dom";
 
 const Cours = () => {
   const [mesFormations, setMesFormations] = useState(false);
@@ -22,14 +23,35 @@ const Cours = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Mes formations :</h1>
-      <h2>Vous possedez {mesFormations.length} formations</h2>
-      <div>
-        {mesFormations &&
-          mesFormations.map(
-            (maFormation) => `Je possède la formation ${maFormation.nom}`
+    <div className="cours">
+      <div className="card">
+        <div className="infos">
+          <h1>Mes formations :</h1>
+          {mesFormations.length >= 1 ? (
+            <h2>Vous possédez {mesFormations.length} formation(s)</h2>
+          ) : (
+            <h2>Accès limité aux modules offerts</h2>
           )}
+        </div>
+        <div className="mesFormations">
+          {mesFormations.length >= 1 ? (
+            mesFormations.map((maFormation) => (
+              <div className="formationCards">
+                <p>Formation {maFormation.nom}</p>
+                <Link>
+                  <button>Accès formation {maFormation.nom}</button>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <div className="formationCards">
+              <p>Accès limité module FullStack</p>
+              <Link>
+                <button>Accès non premium FullStack</button>
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
