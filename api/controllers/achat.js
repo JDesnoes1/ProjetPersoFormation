@@ -38,13 +38,12 @@ export const getAllAchats = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Le token n'est pas valide");
 
-    const q = "SELECT `id_formation` FROM achats WHERE id_user = ?";
+    const q =
+      "SELECT achats.id_formation, formations.nom FROM achats JOIN formations ON achats.id_formation = formations.id WHERE achats.id_user = ?";
 
     db.query(q, [userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
-
-      const formationIds = data.map((formation) => formation.id_formation);
-      return res.status(200).json(formationIds);
+      return res.status(200).json(data);
     });
   });
 };
