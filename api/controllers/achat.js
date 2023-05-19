@@ -30,3 +30,21 @@ export const addAchat = (req, res) => {
     });
   });
 };
+
+export const getAllAchats = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Vous n'êtes pas connecté");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Le token n'est pas valide");
+
+    const q = "SELECT `id_formation` FROM achats WHERE id_user = ?";
+
+    db.query(q, [userInfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+
+      const formationIds = data.map((formation) => formation.id_formation);
+      return res.status(200).json(formationIds);
+    });
+  });
+};
