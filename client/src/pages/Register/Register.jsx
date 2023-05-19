@@ -124,7 +124,7 @@ const Register = () => {
               value={confirmPassword}
               onChange={handleConfirmPassword}
             />
-            {err && err}
+            <p className="erreur">{err && err}</p>
             <button onClick={handleClick}>S'inscrire</button>
           </form>
         </div>
