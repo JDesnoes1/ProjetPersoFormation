@@ -39,7 +39,7 @@ export const getAllAchats = (req, res) => {
     if (err) return res.status(403).json("Le token n'est pas valide");
 
     const q =
-      "SELECT achats.id_formation, formations.nom FROM achats JOIN formations ON achats.id_formation = formations.id WHERE achats.id_user = ?";
+      "SELECT achats.id, achats.id_formation, formations.nom FROM achats JOIN formations ON achats.id_formation = formations.id WHERE achats.id_user = ?";
 
     db.query(q, [userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);

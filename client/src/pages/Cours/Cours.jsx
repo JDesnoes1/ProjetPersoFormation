@@ -11,7 +11,6 @@ const Cours = () => {
       try {
         const response = await makeRequest.get("achat/allAchats");
         setMesFormations(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error(
           "Une erreur s'est produite lors de la récupération des formations achetées :",
@@ -36,7 +35,7 @@ const Cours = () => {
         <div className="mesFormations">
           {mesFormations.length >= 1 ? (
             mesFormations.map((maFormation) => (
-              <div className="formationCards">
+              <div className="formationCards" key={maFormation.id}>
                 <p>Formation {maFormation.nom}</p>
                 <Link>
                   <button>Accès formation {maFormation.nom}</button>
