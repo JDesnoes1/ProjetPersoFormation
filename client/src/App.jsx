@@ -12,11 +12,23 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    const checkAccessToken = () => {
+      const accessToken = document.cookie.includes("accessToken");
+
+      if (!accessToken) {
+        logout(); // Déconnecter l'utilisateur
+      }
+    };
+
+    checkAccessToken();
+  }, []);
 
   const Layout = () => {
     return (
