@@ -8,7 +8,7 @@ export const AchatContext = createContext();
 
 export const AchatContextProvider = ({ children }) => {
   const [achats, setAchats] = useState(
-    JSON.parse(localStorage.getItem("achats") || null)
+    JSON.parse(secureLocalStorage.getItem("achats") || null)
   );
   console.log(achats);
 
@@ -16,7 +16,7 @@ export const AchatContextProvider = ({ children }) => {
   const [hasPurchased, setHasPurchased] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("achats", JSON.stringify(achats));
+    secureLocalStorage.setItem("achats", JSON.stringify(achats));
   }, [achats]);
 
   const getAllAchats = async () => {
