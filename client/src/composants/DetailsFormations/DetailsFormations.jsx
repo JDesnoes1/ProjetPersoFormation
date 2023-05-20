@@ -1,15 +1,14 @@
 import "./detailsFormation.scss";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
-import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import { AchatContext } from "../../context/achatContext";
 
 const DetailsFormations = ({ formationId }) => {
   const [formation, setFormation] = useState(null);
   const [err, setErr] = useState(null);
-  const { currentUser } = useContext(AuthContext);
-  const { achatFormation, getAchats, hasPurchased } = useContext(AchatContext);
+  const { achatFormation, getAchats, hasPurchased, getAllAchats } =
+    useContext(AchatContext);
 
   useEffect(() => {
     const checkAchats = async () => {
@@ -35,6 +34,7 @@ const DetailsFormations = ({ formationId }) => {
   const handleAchat = async () => {
     try {
       await achatFormation(formationId);
+      await getAllAchats();
       location.reload();
     } catch (err) {
       setErr(err.response.data);

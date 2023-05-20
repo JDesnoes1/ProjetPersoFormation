@@ -7,7 +7,11 @@ import { useContext } from "react";
 export const AchatContext = createContext();
 
 export const AchatContextProvider = ({ children }) => {
-  const [achats, setAchats] = useState([]);
+  const [achats, setAchats] = useState(
+    JSON.parse(localStorage.getItem("achats") || null)
+  );
+  console.log(achats);
+
   const { currentUser } = useContext(AuthContext);
   const [hasPurchased, setHasPurchased] = useState(false);
 
@@ -15,25 +19,21 @@ export const AchatContextProvider = ({ children }) => {
     localStorage.setItem("achats", JSON.stringify(achats));
   }, [achats]);
 
-  useEffect(() => {
-    const getAllAchats = async () => {
-      try {
-        const response = await makeRequest.get("achat/allAchats");
-        setAchats(response.data);
-      } catch (err) {
-        console.error(
-          "Une erreur s'est produite lors de la récupération des formations achetées :",
-          err
-        );
-      }
-    };
-    getAllAchats();
-  }, []);
+  const getAllAchats = async () => {
+    try {
+      const response = await makeRequest.get("achat/allAchats");
+      setAchats(response.data);
+    } catch (err) {
+      console.error(
+        "Une erreur s'est produite lors de la récupération des formations achetées :",
+        err
+      );
+    }
+  };
 
   const achatFormation = async (formationId) => {
     try {
       await makeRequest.post("achat", { formationId });
-      setAchats([...achats, formationId]);
       console.log("Formation achtée avec succès !");
     } catch (err) {
       console.error(
@@ -62,7 +62,9 @@ export const AchatContextProvider = ({ children }) => {
   };
 
   return (
-    <AchatContext.Provider value={{ achatFormation, getAchats, hasPurchased }}>
+    <AchatContext.Provider
+      value={{ achatFormation, getAchats, hasPurchased, achats, getAllAchats }}
+    >
       {children}
     </AchatContext.Provider>
   );
