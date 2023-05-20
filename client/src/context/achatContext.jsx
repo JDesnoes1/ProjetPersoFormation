@@ -10,7 +10,13 @@ export const AchatContextProvider = ({ children }) => {
   const [achats, setAchats] = useState(
     JSON.parse(secureLocalStorage.getItem("achats") || null)
   );
-  console.log(achats);
+
+  const hasFormation = (formationId) => {
+    const userFormation = achats.map((achat) => achat.id_formation);
+    return userFormation.includes(formationId);
+  };
+
+  console.log(hasFormation(1));
 
   const { currentUser } = useContext(AuthContext);
   const [hasPurchased, setHasPurchased] = useState(false);
@@ -63,7 +69,14 @@ export const AchatContextProvider = ({ children }) => {
 
   return (
     <AchatContext.Provider
-      value={{ achatFormation, getAchats, hasPurchased, achats, getAllAchats }}
+      value={{
+        achatFormation,
+        getAchats,
+        hasPurchased,
+        achats,
+        getAllAchats,
+        hasFormation,
+      }}
     >
       {children}
     </AchatContext.Provider>
