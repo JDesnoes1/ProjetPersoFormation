@@ -20,6 +20,7 @@ const Navbar = () => {
         <Link to="/" className="link">
           <h3>Formations Dev</h3>
         </Link>
+        <p>Bonjour {currentUser.username}</p>
       </div>
       <div className="right">
         {currentUser ? (
