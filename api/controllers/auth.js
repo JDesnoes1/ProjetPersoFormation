@@ -131,12 +131,16 @@ export const login = (req, res) => {
         .json("Mauvais mot de passe ou nom d'utilisateur !");
 
     const token = jwt.sign({ id: data[0].id }, "secretkey");
+    const expirationDate = new Date();
+    expirationDate.setTime(expirationDate.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     const { mdp, ispremium, ...others } = data[0];
 
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
+        expires: expirationDate,
       })
       .status(200)
       .json(others);
