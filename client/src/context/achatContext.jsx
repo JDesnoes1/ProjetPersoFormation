@@ -1,11 +1,15 @@
 import { useState, createContext, useEffect } from "react";
 import secureLocalStorage from "react-secure-storage";
 import { makeRequest } from "../axios";
+import { AuthContext } from "./authContext";
+import { useContext } from "react";
 
 export const AchatContext = createContext();
 
 export const AchatContextProvider = ({ children }) => {
   const [achats, setAchats] = useState([]);
+  const { currentUser } = useContext(AuthContext);
+  const [hasPurchased, setHasPurchased] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("achats", JSON.stringify(achats));
@@ -39,12 +43,26 @@ export const AchatContextProvider = ({ children }) => {
     }
   };
 
-  const hasPurchasedFormation = (formationId) => {
-    return achats && achats.includes(formationId);
+  const getAchats = async (formationId) => {
+    try {
+      const response = await makeRequest.get(
+        `achat?id_formation=${formationId}`
+      );
+      const userIds = response.data.userIds;
+      const userId = currentUser.id;
+
+      const hadPurchased = userIds.includes(userId);
+      setHasPurchased(hadPurchased);
+    } catch {
+      console.error(
+        "Une erreur s'est produite lors de la récupération des achats :",
+        err
+      );
+    }
   };
 
   return (
-    <AchatContext.Provider value={{ achatFormation, hasPurchasedFormation }}>
+    <AchatContext.Provider value={{ achatFormation, getAchats, hasPurchased }}>
       {children}
     </AchatContext.Provider>
   );
