@@ -11,12 +11,17 @@ import {
   Navigate,
   Outlet,
   RouterProvider,
+  useParams,
 } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
+import { AchatContext } from "./context/achatContext";
+import LinkPagesFormation from "./composants/LinkPagesFormation/LinkPagesFormation";
+import Module1 from "./pages/ModulesFormations/Module1";
 
 function App() {
-  const { currentUser, logout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
+  const { hasFormation } = useContext(AchatContext);
 
   const Layout = () => {
     return (
@@ -29,9 +34,32 @@ function App() {
     );
   };
 
+  const Layout2 = () => {
+    return (
+      <div>
+        <Navbar />
+        <div>
+          <LinkPagesFormation />
+        </div>
+        <div>
+          <Outlet />
+        </div>
+      </div>
+    );
+  };
+
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/connexion" />;
+    }
+    return children;
+  };
+
+  const ProtectedRouteFormation = ({ children }) => {
+    const params = useParams();
+    const formationId = parseInt(params.id);
+    if (!hasFormation(formationId)) {
+      return <Navigate to="/formations" />;
     }
     return children;
   };
@@ -60,6 +88,22 @@ function App() {
           ),
         },
         { path: "/about", element: <About /> },
+      ],
+    },
+    {
+      path: "/",
+      element: <Layout2 />,
+      children: [
+        {
+          path: "/cours/:id",
+          element: (
+            <ProtectedRoute>
+              <ProtectedRouteFormation>
+                <Module1 />
+              </ProtectedRouteFormation>
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
     { path: "/register", element: <Register /> },
