@@ -18,6 +18,7 @@ import { AuthContext } from "./context/authContext";
 import { AchatContext } from "./context/achatContext";
 import LinkPagesFormation from "./composants/LinkPagesFormation/LinkPagesFormation";
 import Module1 from "./pages/ModulesFormations/Module1";
+import PresentationForm from "./pages/ModulesFormations/PresentationForm";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -38,11 +39,13 @@ function App() {
     return (
       <div>
         <Navbar />
-        <div>
-          <LinkPagesFormation />
-        </div>
-        <div>
-          <Outlet />
+        <div style={{ display: "flex" }}>
+          <div>
+            <LinkPagesFormation />
+          </div>
+          <div>
+            <Outlet />
+          </div>
         </div>
       </div>
     );
@@ -99,7 +102,7 @@ function App() {
           element: (
             <ProtectedRoute>
               <ProtectedRouteFormation>
-                <Module1 />
+                <PresentationForm />
               </ProtectedRouteFormation>
             </ProtectedRoute>
           ),

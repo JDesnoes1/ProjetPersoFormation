@@ -37,7 +37,7 @@ const Cours = () => {
             mesFormations.map((maFormation) => (
               <div className="formationCards" key={maFormation.id}>
                 <p>Formation {maFormation.nom}</p>
-                <Link>
+                <Link to={`/cours/${maFormation.id_formation}`}>
                   <button>Accès formation {maFormation.nom}</button>
                 </Link>
               </div>
