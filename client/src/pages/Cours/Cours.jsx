@@ -37,7 +37,6 @@ const Cours = () => {
             ) : (
               <>
                 <h2>Vous possédez {mesFormations.length} formation(s)</h2>
-                <h2>Accès limité aux 2 modules offerts</h2>
               </>
             )
           ) : (
