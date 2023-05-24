@@ -13,16 +13,14 @@ import {
   RouterProvider,
   useParams,
 } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
-import { AchatContext } from "./context/achatContext";
 import LinkPagesFormation from "./composants/LinkPagesFormation/LinkPagesFormation";
 import Module1 from "./pages/ModulesFormations/Module1";
 import PresentationForm from "./pages/ModulesFormations/PresentationForm";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-  const { hasFormation } = useContext(AchatContext);
 
   const Layout = () => {
     return (
@@ -54,15 +52,6 @@ function App() {
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/connexion" />;
-    }
-    return children;
-  };
-
-  const ProtectedRouteFormation = ({ children }) => {
-    const params = useParams();
-    const formationId = parseInt(params.id);
-    if (!hasFormation(formationId)) {
-      return <Navigate to="/formations" />;
     }
     return children;
   };
@@ -101,9 +90,7 @@ function App() {
           path: "/cours/:id",
           element: (
             <ProtectedRoute>
-              <ProtectedRouteFormation>
-                <PresentationForm />
-              </ProtectedRouteFormation>
+              <PresentationForm />
             </ProtectedRoute>
           ),
         },

@@ -8,9 +8,7 @@ import "/style.scss";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
-      <AchatContextProvider>
-        <App />
-      </AchatContextProvider>
+      <App />
     </AuthContextProvider>
   </React.StrictMode>
 );
