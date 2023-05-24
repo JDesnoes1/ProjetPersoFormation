@@ -1,21 +1,10 @@
 import "./detailsFormation.scss";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
-import { useContext } from "react";
-import { AchatContext } from "../../context/achatContext";
 
 const DetailsFormations = ({ formationId }) => {
   const [formation, setFormation] = useState(null);
   const [err, setErr] = useState(null);
-  const { achatFormation, getAchats, hasPurchased, getAllAchats } =
-    useContext(AchatContext);
-
-  useEffect(() => {
-    const checkAchats = async () => {
-      await getAchats(formationId);
-    };
-    checkAchats();
-  }, [formationId, getAchats]);
 
   useEffect(() => {
     const getFormation = async () => {
@@ -33,8 +22,7 @@ const DetailsFormations = ({ formationId }) => {
 
   const handleAchat = async () => {
     try {
-      await achatFormation(formationId);
-      await getAllAchats();
+      await makeRequest.post("achat", { formationId });
       location.reload();
     } catch (err) {
       setErr(err.response.data);
@@ -90,11 +78,7 @@ const DetailsFormations = ({ formationId }) => {
             <h3>
               Prix : <span>1050€</span> 899.99€
             </h3>
-            {hasPurchased ? (
-              <p>Merci ! Rendez-vous dans "Mes Cours 😉"</p>
-            ) : (
-              <button onClick={handleAchat}>ACHETER</button>
-            )}
+            <button onClick={handleAchat}>ACHETER</button>
           </div>
         </div>
       </div>
@@ -142,11 +126,7 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 475€</h3>
-            {hasPurchased ? (
-              <p>Merci ! Rendez-vous dans "Mes Cours 😉"</p>
-            ) : (
-              <button onClick={handleAchat}>ACHETER</button>
-            )}
+            <button onClick={handleAchat}>ACHETER</button>
           </div>
         </div>
       </div>
@@ -192,11 +172,7 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 499.99€</h3>
-            {hasPurchased ? (
-              <p>Merci ! Rendez-vous dans "Mes Cours 😉"</p>
-            ) : (
-              <button onClick={handleAchat}>ACHETER</button>
-            )}
+            <button onClick={handleAchat}>ACHETER</button>
           </div>
         </div>
       </div>

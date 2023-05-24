@@ -3,12 +3,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
-import { AchatContext } from "../../context/achatContext";
 
 const Login = () => {
   //Envoyer le message quand l'inscription réussie !
   const location = useLocation();
-  const { getAllAchats } = useContext(AchatContext);
 
   const { successMessage } = location.state || {};
 
@@ -32,7 +30,6 @@ const Login = () => {
     try {
       await login(inputs);
       navigate("/");
-      await getAllAchats();
     } catch (err) {
       setErr(err.response.data);
     }
