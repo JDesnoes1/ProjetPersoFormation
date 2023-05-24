@@ -1,10 +1,14 @@
 import "./detailsFormation.scss";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
 
 const DetailsFormations = ({ formationId }) => {
   const [formation, setFormation] = useState(null);
+  const [usersIds, setUsersIds] = useState([]);
   const [err, setErr] = useState(null);
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const getFormation = async () => {
@@ -15,6 +19,20 @@ const DetailsFormations = ({ formationId }) => {
     };
     getFormation();
   }, [formationId]);
+
+  useEffect(() => {
+    const getAllUsersAchats = async () => {
+      const response = await makeRequest.get(
+        `achat?id_formation=${formationId}`
+      );
+      if (response && response.data) {
+        setUsersIds(response.data.userIds);
+      }
+    };
+    getAllUsersAchats();
+  }, []);
+
+  const userHasFormation = usersIds.includes(currentUser.id);
 
   if (!formation) {
     return <div>Loading...</div>;
@@ -78,7 +96,11 @@ const DetailsFormations = ({ formationId }) => {
             <h3>
               Prix : <span>1050€</span> 899.99€
             </h3>
-            <button onClick={handleAchat}>ACHETER</button>
+            {userHasFormation ? (
+              <p>Merci pour votre achat ! Rdv dans mes cours 😉</p>
+            ) : (
+              <button onClick={handleAchat}>ACHETER</button>
+            )}
           </div>
         </div>
       </div>
@@ -126,7 +148,11 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 475€</h3>
-            <button onClick={handleAchat}>ACHETER</button>
+            {userHasFormation ? (
+              <p>Merci pour votre achat ! Rdv dans mes cours 😉</p>
+            ) : (
+              <button onClick={handleAchat}>ACHETER</button>
+            )}
           </div>
         </div>
       </div>
@@ -172,7 +198,11 @@ const DetailsFormations = ({ formationId }) => {
           </div>
           <div className="achat">
             <h3>Prix : 499.99€</h3>
-            <button onClick={handleAchat}>ACHETER</button>
+            {userHasFormation ? (
+              <p>Merci pour votre achat ! Rdv dans mes cours 😉</p>
+            ) : (
+              <button onClick={handleAchat}>ACHETER</button>
+            )}
           </div>
         </div>
       </div>
