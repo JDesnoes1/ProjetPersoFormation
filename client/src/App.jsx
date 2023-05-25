@@ -16,7 +16,6 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 import LinkPagesFormation from "./composants/LinkPagesFormation/LinkPagesFormation";
-import Module1 from "./pages/ModulesFormations/Module1";
 import PresentationForm from "./pages/ModulesFormations/PresentationForm";
 
 function App() {

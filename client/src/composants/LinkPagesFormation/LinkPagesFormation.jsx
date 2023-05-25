@@ -5,6 +5,7 @@ import "./linkPagesFormation.scss";
 
 const LinkPagesFormation = (idFormation) => {
   const [formation, setFormation] = useState(null);
+  const [modules, setModules] = useState([]);
 
   idFormation = parseInt(useLocation().pathname.split("/")[2]);
 
@@ -18,6 +19,16 @@ const LinkPagesFormation = (idFormation) => {
     getFormation();
   }, [idFormation]);
 
+  useEffect(() => {
+    const getModules = async () => {
+      const response = await makeRequest.get(`module/${idFormation}`);
+      if (response && response.data) {
+        setModules(response.data);
+      }
+    };
+    getModules();
+  }, [idFormation]);
+
   if (!formation) {
     return <div>Loading...</div>;
   }
@@ -28,28 +39,11 @@ const LinkPagesFormation = (idFormation) => {
         <h2>Formation {formation.nom}</h2>
       </div>
       <div className="liens">
-        <a href="">Module 1</a>
-        <a href="">Module 2</a>
-        <a href="">Module 3</a>
-        <a href="">Module 4</a>
-        <a href="">Module 5</a>
-        <a href="">Module 6</a>
-        <a href="">Module 7</a>
-        <a href="">Module 8</a>
-        <a href="">Module 9</a>
-        <a href="">Module 10</a>
-        <a href="">Module 11</a>
-        <a href="">Module 12</a>
-        <a href="">Module 13</a>
-        <a href="">Module 15</a>
-        <a href="">Module 16</a>
-        <a href="">Module 17</a>
-        <a href="">Module 18</a>
-        <a href="">Module 19</a>
-        <a href="">Module 20</a>
-        <a href="">Module 21</a>
-        <a href="">Module 22</a>
-        <a href="">Module 23</a>
+        {modules.map((module) => (
+          <a key={module.id} href="">
+            {module.nom}
+          </a>
+        ))}
       </div>
     </div>
   );
