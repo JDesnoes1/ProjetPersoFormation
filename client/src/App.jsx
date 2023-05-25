@@ -32,22 +32,6 @@ function App() {
     );
   };
 
-  const Layout2 = () => {
-    return (
-      <div>
-        <Navbar />
-        <div style={{ display: "flex" }}>
-          <div>
-            <LinkPagesFormation />
-          </div>
-          <div>
-            <Outlet />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/connexion" />;
@@ -79,12 +63,6 @@ function App() {
           ),
         },
         { path: "/about", element: <About /> },
-      ],
-    },
-    {
-      path: "/",
-      element: <Layout2 />,
-      children: [
         {
           path: "/cours/:id",
           element: (
