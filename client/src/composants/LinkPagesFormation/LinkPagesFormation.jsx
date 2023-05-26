@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import "./linkPagesFormation.scss";
 
@@ -40,9 +40,9 @@ const LinkPagesFormation = (idFormation) => {
       </div>
       <div className="liens">
         {modules.map((module) => (
-          <a key={module.id} href="">
+          <Link to={`/cours/${formation.id}/${module.id}`} key={module.id}>
             {module.nom}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

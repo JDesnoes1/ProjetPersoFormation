@@ -6,6 +6,7 @@ import Register from "./pages/Register/Register";
 import FormationDetails from "./pages/FormationDetails/FormationDetails";
 import Cours from "./pages/Cours/Cours";
 import Navbar from "./composants/Navbar/Navbar";
+import Modules from "./pages/ModulesFormations/Modules";
 import {
   createBrowserRouter,
   Navigate,
@@ -68,6 +69,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <PresentationForm />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/cours/:formationId/:moduleId",
+          element: (
+            <ProtectedRoute>
+              <Modules />
             </ProtectedRoute>
           ),
         },
