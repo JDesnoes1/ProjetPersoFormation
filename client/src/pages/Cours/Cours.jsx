@@ -66,7 +66,7 @@ const Cours = () => {
                 ))}
                 <div className="formationCards">
                   <p>Accès limité module FullStack</p>
-                  <Link>
+                  <Link to="/cours/modulesOfferts">
                     <button>Accès non premium FullStack</button>
                   </Link>
                 </div>
@@ -75,7 +75,7 @@ const Cours = () => {
           ) : (
             <div className="formationCards">
               <p>Accès limité module FullStack</p>
-              <Link>
+              <Link to="/cours/modulesOfferts">
                 <button>Accès non premium FullStack</button>
               </Link>
             </div>

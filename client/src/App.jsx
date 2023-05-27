@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 import LinkPagesFormation from "./composants/LinkPagesFormation/LinkPagesFormation";
 import PresentationForm from "./pages/ModulesFormations/PresentationForm";
+import Offert from "./pages/ModulesOfferts/Offert";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -77,6 +78,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <Modules />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/cours/modulesOfferts",
+          element: (
+            <ProtectedRoute>
+              <Offert />
             </ProtectedRoute>
           ),
         },
