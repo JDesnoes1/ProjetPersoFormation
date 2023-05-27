@@ -1,6 +1,6 @@
 import "./presentationForm.scss";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import LinkPagesFormation from "../../composants/LinkPagesFormation/LinkPagesFormation";
 
@@ -45,7 +45,9 @@ const PresentationForm = () => {
           aliquam accusamus eligendi in quos distinctio provident nulla
           consequuntur nostrum amet eius omnis quod consequatur!
         </p>
-        <button>Accès module 1</button>
+        <Link className="monLien" to="/cours/1/1">
+          <button>Accès module 1</button>
+        </Link>
       </div>
     );
   }
@@ -74,7 +76,9 @@ const PresentationForm = () => {
           praesentium magni velit, debitis veniam odio consectetur obcaecati
           reprehenderit beatae rerum voluptatem dolores enim error aperiam.
         </p>
-        <button>Accès module 1</button>
+        <Link className="monLien" to="/cours/2/15">
+          <button>Accès module 1</button>
+        </Link>
       </div>
     );
   }
@@ -121,7 +125,9 @@ const PresentationForm = () => {
           inventore officia cupiditate minus doloremque a corporis iure quisquam
           ipsa repellat dolor laudantium exercitationem quas unde illo.
         </p>
-        <button>Accès module 1</button>
+        <Link className="monLien" to="/cours/3/32">
+          <button>Accès module 1</button>
+        </Link>
       </div>
     );
   }
