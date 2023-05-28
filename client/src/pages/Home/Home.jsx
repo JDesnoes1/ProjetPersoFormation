@@ -22,7 +22,7 @@ const Home = () => {
           <h2>Vous souhaitez acheter une formation ?</h2>
           <div className="infos">
             <Link to="/formations">
-              <button>Nos Formations</button>
+              <button>NOS FORMATIONS</button>
             </Link>
             <p>Accès rapide vers l'achat d'une formation</p>
             <span>
@@ -35,7 +35,7 @@ const Home = () => {
           <h2>En savoir plus sur notre équipe</h2>
           <div className="infos">
             <Link to="/about">
-              <button>A propos de nous</button>
+              <button>A PROPOS DE NOUS</button>
             </Link>
             <p>Accès rapide vers les informations sur notre équipe</p>
             <span>
