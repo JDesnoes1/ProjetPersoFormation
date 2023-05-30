@@ -15,20 +15,24 @@ const Modules = () => {
     ordre: Number(""),
   });
 
+  //Methode qui permet de récupérer les différents éléments que l'admin mettra dans le formulaire, permet d'ajouter les éléments en base de données
   const handleChange = async (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  console.log(inputs);
+
+  //Permet de récupérer l'option de l'admin (Si il souhaite ajouter un sous-titre, paragraphe, etc...)
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
+  //Permet de d'aller récupérer l'id Module dans l'URL
   useEffect(() => {
     const pathParts = location.pathname.split("/");
     const idModule = parseInt(pathParts[pathParts.length - 1]);
     setModuleId(idModule);
   }, [location]);
 
+  //Permet de récupérer un module par apport à son ID pour récupérer les informations d'un module.
   useEffect(() => {
     const getModuleById = async () => {
       if (moduleId) {
@@ -41,6 +45,7 @@ const Modules = () => {
     getModuleById();
   }, [moduleId]);
 
+  //Permet d'ajouter un (***paragraphe***) quand l'admin va appuyer sur le bouton
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (moduleId) {
