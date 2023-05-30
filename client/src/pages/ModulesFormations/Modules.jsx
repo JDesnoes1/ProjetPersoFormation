@@ -9,6 +9,19 @@ const Modules = () => {
   const location = useLocation();
   const [module, setModule] = useState([]);
   const [moduleId, setModuleId] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [inputs, setInputs] = useState({
+    contenu: "",
+    ordre: Number(""),
+  });
+
+  const handleChange = async (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  console.log(inputs);
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   useEffect(() => {
     const pathParts = location.pathname.split("/");
@@ -28,6 +41,13 @@ const Modules = () => {
     getModuleById();
   }, [moduleId]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (moduleId) {
+      await makeRequest.post(`paragraphe/${moduleId}`, inputs);
+    }
+  };
+
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -43,6 +63,29 @@ const Modules = () => {
               </>
             ) : (
               <p>Loading...</p>
+            )}
+            <div style={{ display: "flex" }}>
+              <p>Ajouter un contenu</p>
+              <select value={selectedOption} onChange={handleOptionChange}>
+                <option value="sous-titre">Sous-titre</option>
+                <option value="paragraphe">Paragraphe</option>
+              </select>
+            </div>
+            {selectedOption === "sous-titre" ? (
+              <form>
+                <input type="text" name="sousTitreContent" />
+                <button onClick={handleSubmit}>Ajouter un sous-titre</button>
+              </form>
+            ) : (
+              <form>
+                <textarea
+                  name="contenu"
+                  placeholder="Votre paragraphe ici"
+                  onChange={handleChange}
+                ></textarea>
+                <input type="number" name="ordre" onChange={handleChange} />
+                <button onClick={handleSubmit}>Ajouter un paragraphe</button>
+              </form>
             )}
           </div>
         </div>
