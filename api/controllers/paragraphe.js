@@ -14,3 +14,12 @@ export const insertParagraphe = (req, res) => {
       .json("Le paragraphe a bien été inséré dans le module avec succès !");
   });
 };
+
+export const updateParagraphe = (req, res) => {
+  const q = "UPDATE paragraphes SET `contenu`=?, `ordre`=? WHERE id = ?";
+
+  db.query(q, [req.body.contenu, req.body.ordre, req.body.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json("Le paragraphe a été modifié avec succès !");
+  });
+};
