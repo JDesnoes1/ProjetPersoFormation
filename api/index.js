@@ -4,6 +4,7 @@ import formationRoutes from "./routes/formations.js";
 import achatRoutes from "./routes/achats.js";
 import moduleRoutes from "./routes/modules.js";
 import paragrapheRoutes from "./routes/paragraphes.js";
+import sousTitreRoutes from "./routes/sousTitres.js";
 
 import { db } from "./db.js";
 import cors from "cors";
@@ -30,6 +31,7 @@ app.use("/api/formation", formationRoutes);
 app.use("/api/achat", achatRoutes);
 app.use("/api/module", moduleRoutes);
 app.use("/api/paragraphe", paragrapheRoutes);
+app.use("/api/sousTitre", sousTitreRoutes);
 
 db.connect(function (err) {
   if (err) throw err;
