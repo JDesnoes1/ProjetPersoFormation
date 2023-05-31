@@ -49,7 +49,12 @@ const Modules = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (moduleId) {
-      await makeRequest.post(`paragraphe/${moduleId}`, inputs);
+      if (selectedOption === "paragraphe") {
+        await makeRequest.post(`paragraphe/${moduleId}`, inputs);
+      }
+      if (selectedOption === "sous-titre") {
+        await makeRequest.post(`sousTitre/${moduleId}`, inputs);
+      }
     }
   };
 
@@ -72,13 +77,24 @@ const Modules = () => {
             <div style={{ display: "flex" }}>
               <p>Ajouter un contenu</p>
               <select value={selectedOption} onChange={handleOptionChange}>
-                <option value="sous-titre">Sous-titre</option>
                 <option value="paragraphe">Paragraphe</option>
+                <option value="sous-titre">Sous-titre</option>
               </select>
             </div>
             {selectedOption === "sous-titre" ? (
               <form>
-                <input type="text" name="sousTitreContent" />
+                <input
+                  type="text"
+                  name="contenu"
+                  onChange={handleChange}
+                  placeholder="Votre sous-titre"
+                />
+                <input
+                  type="number"
+                  name="ordre"
+                  onChange={handleChange}
+                  placeholder="Ordre"
+                />
                 <button onClick={handleSubmit}>Ajouter un sous-titre</button>
               </form>
             ) : (
@@ -88,7 +104,12 @@ const Modules = () => {
                   placeholder="Votre paragraphe ici"
                   onChange={handleChange}
                 ></textarea>
-                <input type="number" name="ordre" onChange={handleChange} />
+                <input
+                  type="number"
+                  name="ordre"
+                  onChange={handleChange}
+                  placeholder="Ordre"
+                />
                 <button onClick={handleSubmit}>Ajouter un paragraphe</button>
               </form>
             )}
