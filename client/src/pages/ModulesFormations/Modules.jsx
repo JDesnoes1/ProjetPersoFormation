@@ -8,8 +8,10 @@ import { makeRequest } from "../../axios";
 const Modules = () => {
   const location = useLocation();
   const [module, setModule] = useState([]);
+  const [paragraphes, setParagraphes] = useState([]);
+  const [st, setSt] = useState([]);
   const [moduleId, setModuleId] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("paragraphe");
   const [inputs, setInputs] = useState({
     contenu: "",
     ordre: Number(""),
@@ -19,12 +21,11 @@ const Modules = () => {
   const handleChange = async (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  console.log(module);
+
   //Permet de récupérer l'option de l'admin (Si il souhaite ajouter un sous-titre, paragraphe, etc...)
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
   //Permet de d'aller récupérer l'id Module dans l'URL
   useEffect(() => {
     const pathParts = location.pathname.split("/");
@@ -45,6 +46,30 @@ const Modules = () => {
     getModuleById();
   }, [moduleId]);
 
+  useEffect(() => {
+    const getParagraphesByModId = async () => {
+      if (moduleId) {
+        const response = await makeRequest.get(`paragraphe/${moduleId}`);
+        if (response && response.data) {
+          setParagraphes(response.data);
+        }
+      }
+    };
+    getParagraphesByModId();
+  }, [moduleId]);
+
+  useEffect(() => {
+    const getStByModId = async () => {
+      if (moduleId) {
+        const response = await makeRequest.get(`sousTitre/${moduleId}`);
+        if (response && response.data) {
+          setSt(response.data);
+        }
+      }
+    };
+    getStByModId();
+  }, [moduleId]);
+
   //Permet d'ajouter un (***paragraphe***) quand l'admin va appuyer sur le bouton
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +83,20 @@ const Modules = () => {
     }
   };
 
+  const combinedData = [
+    ...paragraphes.map((paragraphe) => ({ ...paragraphe, type: "paragraphe" })),
+    ...st.map((sousTitre) => ({ ...sousTitre, type: "sous-titre" })),
+  ];
+  combinedData.sort((a, b) => a.ordre - b.ordre);
+
+  useEffect(() => {
+    const defaultOrder = combinedData.length + 1;
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      ordre: defaultOrder,
+    }));
+  }, [combinedData.length]);
+
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -66,11 +105,15 @@ const Modules = () => {
         </div>
         <div className="container">
           <div className="content">
-            <h2>{module[0].titre}</h2>
-            {module && module.length > 0 ? (
+            <h1>{module && module[0]?.titre}</h1>
+            {combinedData && combinedData.length > 0 ? (
               <>
-                <h1>{}</h1>
-                <p>{}</p>
+                {combinedData.map((item) => (
+                  <div key={item.id}>
+                    {item.type === "paragraphe" && <p>{item.contenu}</p>}
+                    {item.type === "sous-titre" && <h3>{item.contenu}</h3>}
+                  </div>
+                ))}
               </>
             ) : (
               <p>Loading...</p>
@@ -95,6 +138,7 @@ const Modules = () => {
                   name="ordre"
                   onChange={handleChange}
                   placeholder="Ordre"
+                  value={combinedData.length + 1}
                 />
                 <button onClick={handleSubmit}>Ajouter un sous-titre</button>
               </form>
@@ -110,6 +154,7 @@ const Modules = () => {
                   name="ordre"
                   onChange={handleChange}
                   placeholder="Ordre"
+                  value={combinedData.length + 1}
                 />
                 <button onClick={handleSubmit}>Ajouter un paragraphe</button>
               </form>
