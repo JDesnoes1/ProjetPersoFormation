@@ -41,7 +41,7 @@ const LinkPagesFormation = (idFormation) => {
       <div className="liens">
         {modules.map((module) => (
           <Link to={`/cours/${formation.id}/${module.id}`} key={module.id}>
-            {module.nom}
+            {module.titre}
           </Link>
         ))}
       </div>

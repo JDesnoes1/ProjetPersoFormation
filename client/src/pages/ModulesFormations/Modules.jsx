@@ -19,7 +19,7 @@ const Modules = () => {
   const handleChange = async (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-
+  console.log(module);
   //Permet de récupérer l'option de l'admin (Si il souhaite ajouter un sous-titre, paragraphe, etc...)
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -66,10 +66,11 @@ const Modules = () => {
         </div>
         <div className="container">
           <div className="content">
+            <h2>{module[0].titre}</h2>
             {module && module.length > 0 ? (
               <>
-                <h1>{module[0].sous_titre_contenu}</h1>
-                <p>{module[0].contenu}</p>
+                <h1>{}</h1>
+                <p>{}</p>
               </>
             ) : (
               <p>Loading...</p>
