@@ -68,7 +68,7 @@ const Modules = () => {
           <div className="content">
             {module && module.length > 0 ? (
               <>
-                <h1>{module[0].titre}</h1>
+                <h1>{module[0].sous_titre_contenu}</h1>
                 <p>{module[0].contenu}</p>
               </>
             ) : (
