@@ -30,3 +30,12 @@ export const deleteSousTitre = (req, res) => {
     return res.status(200).json("Succès ! Le paragraphe a bien été supprimé !");
   });
 };
+
+export const getStByModId = (req, res) => {
+  const moduleId = req.params.moduleId;
+  const q = "SELECT * FROM sous_titres WHERE idModule = ?";
+  db.query(q, [moduleId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+};

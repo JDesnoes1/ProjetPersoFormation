@@ -30,3 +30,12 @@ export const deleteParagraphe = (req, res) => {
     return res.status(200).json("Succès ! Le paragraphe a bien été supprimé !");
   });
 };
+
+export const getParagraphesByModId = (req, res) => {
+  const moduleId = req.params.moduleId;
+  const q = "SELECT * FROM paragraphes WHERE idModule = ?";
+  db.query(q, [moduleId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+};
