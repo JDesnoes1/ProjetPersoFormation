@@ -110,8 +110,16 @@ const Modules = () => {
               <>
                 {combinedData.map((item) => (
                   <div key={item.id}>
-                    {item.type === "paragraphe" && <p>{item.contenu}</p>}
-                    {item.type === "sous-titre" && <h3>{item.contenu}</h3>}
+                    {item.type === "paragraphe" && (
+                      <p>
+                        {item.contenu} <button>Modifier</button>
+                      </p>
+                    )}
+                    {item.type === "sous-titre" && (
+                      <h3>
+                        {item.contenu} <button>Modifier</button>
+                      </h3>
+                    )}
                   </div>
                 ))}
               </>
