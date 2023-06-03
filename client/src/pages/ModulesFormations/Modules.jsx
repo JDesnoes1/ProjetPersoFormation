@@ -4,18 +4,19 @@ import { useLocation } from "react-router-dom";
 import LinkPagesFormation from "../../composants/LinkPagesFormation/LinkPagesFormation";
 import { useEffect } from "react";
 import { makeRequest } from "../../axios";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const Modules = () => {
   const location = useLocation();
   const [module, setModule] = useState([]);
-  const [paragraphes, setParagraphes] = useState([]);
-  const [st, setSt] = useState([]);
   const [moduleId, setModuleId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("paragraphe");
   const [inputs, setInputs] = useState({
     contenu: "",
     ordre: Number(""),
   });
+
+  const queryClient = useQueryClient();
 
   //Methode qui permet de récupérer les différents éléments que l'admin mettra dans le formulaire, permet d'ajouter les éléments en base de données
   const handleChange = async (e) => {
@@ -46,48 +47,55 @@ const Modules = () => {
     getModuleById();
   }, [moduleId]);
 
-  useEffect(() => {
-    const getParagraphesByModId = async () => {
-      if (moduleId) {
-        const response = await makeRequest.get(`paragraphe/${moduleId}`);
-        if (response && response.data) {
-          setParagraphes(response.data);
-        }
-      }
-    };
-    getParagraphesByModId();
-  }, [moduleId]);
+  const addContenuMutation = useMutation(async (newContenu) => {
+    if (selectedOption === "paragraphe") {
+      await makeRequest.post(`paragraphe/${moduleId}`, newContenu);
+    }
+    if (selectedOption === "sous-titre") {
+      await makeRequest.post(`sousTitre/${moduleId}`, newContenu);
+    }
+    queryClient.invalidateQueries(["paragraphes", moduleId]);
+    queryClient.invalidateQueries(["sousTitres", moduleId]);
+  });
 
-  useEffect(() => {
-    const getStByModId = async () => {
-      if (moduleId) {
-        const response = await makeRequest.get(`sousTitre/${moduleId}`);
-        if (response && response.data) {
-          setSt(response.data);
-        }
-      }
-    };
-    getStByModId();
-  }, [moduleId]);
+  const { data: paragraphes, isLoading: isLoadingParagraphes } = useQuery(
+    ["paragraphes", moduleId],
+    async () => {
+      const response = await makeRequest.get(`paragraphe/${moduleId}`);
+      return response.data;
+    }
+  );
 
-  //Permet d'ajouter un (***paragraphe***) quand l'admin va appuyer sur le bouton
+  const { data: sousTitres, isLoading: isLoadingSousTitres } = useQuery(
+    ["sousTitres", moduleId],
+    async () => {
+      const response = await makeRequest.get(`sousTitre/${moduleId}`);
+      return response.data;
+    }
+  );
+
+  const combinedData = [
+    ...(paragraphes || []).map((paragraphe) => ({
+      ...paragraphe,
+      type: "paragraphe",
+    })),
+    ...(sousTitres || []).map((sousTitre) => ({
+      ...sousTitre,
+      type: "sous-titre",
+    })),
+  ];
+  combinedData.sort((a, b) => a.ordre - b.ordre);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (moduleId) {
-      if (selectedOption === "paragraphe") {
-        await makeRequest.post(`paragraphe/${moduleId}`, inputs);
-      }
-      if (selectedOption === "sous-titre") {
-        await makeRequest.post(`sousTitre/${moduleId}`, inputs);
-      }
+      await addContenuMutation.mutateAsync(inputs);
+      setInputs({
+        contenu: "",
+        ordre: combinedData.length + 1,
+      });
     }
   };
-
-  const combinedData = [
-    ...paragraphes.map((paragraphe) => ({ ...paragraphe, type: "paragraphe" })),
-    ...st.map((sousTitre) => ({ ...sousTitre, type: "sous-titre" })),
-  ];
-  combinedData.sort((a, b) => a.ordre - b.ordre);
 
   useEffect(() => {
     const defaultOrder = combinedData.length + 1;
@@ -140,6 +148,7 @@ const Modules = () => {
                   name="contenu"
                   onChange={handleChange}
                   placeholder="Votre sous-titre"
+                  value={inputs.contenu}
                 />
                 <input
                   type="number"
@@ -156,6 +165,7 @@ const Modules = () => {
                   name="contenu"
                   placeholder="Votre paragraphe ici"
                   onChange={handleChange}
+                  value={inputs.contenu}
                 ></textarea>
                 <input
                   type="number"

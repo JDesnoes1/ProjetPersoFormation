@@ -19,18 +19,22 @@ import { AuthContext } from "./context/authContext";
 import LinkPagesFormation from "./composants/LinkPagesFormation/LinkPagesFormation";
 import PresentationForm from "./pages/ModulesFormations/PresentationForm";
 import Offert from "./pages/ModulesOfferts/Offert";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
+  const queryClient = new QueryClient();
 
   const Layout = () => {
     return (
-      <div>
-        <Navbar />
+      <QueryClientProvider client={queryClient}>
         <div>
-          <Outlet />
+          <Navbar />
+          <div>
+            <Outlet />
+          </div>
         </div>
-      </div>
+      </QueryClientProvider>
     );
   };
 
