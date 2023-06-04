@@ -110,12 +110,35 @@ const Modules = () => {
     });
   };
 
-  const handleEdit = (contenuId, contenu, ordre) => {
+  const updateContenuMutation = useMutation(async (updatedContenu) => {
+    updatedContenu.id = selectedContenuId;
+    updatedContenu.ordre = inputs.ordre;
+    updatedContenu.contenu = inputs.contenu;
+    if (selectedOption === "paragraphe" && selectedContenuId !== null) {
+      await makeRequest.put("paragraphe", updatedContenu);
+    }
+    if (selectedOption === "sous-titre" && selectedContenuId !== null) {
+      await makeRequest.put("sousTitre", updatedContenu);
+    }
+    queryClient.invalidateQueries(["paragraphes"]);
+    queryClient.invalidateQueries(["sous-titre"]);
+  });
+
+  const handleEdit = async (contenuId, contenu, ordre) => {
     setSelectedContenuId(contenuId);
     // Réinitialisez les champs du formulaire avec les données sélectionnées
     setInputs({
       contenu: contenu,
       ordre: ordre,
+    });
+  };
+
+  const handleSubmitEdit = async (e) => {
+    e.preventDefault();
+    await updateContenuMutation.mutateAsync(inputs);
+    setSelectedContenuId(null);
+    setInputs({
+      contenu: "",
     });
   };
 
@@ -134,7 +157,7 @@ const Modules = () => {
                   <div key={item.id}>
                     {item.type === "paragraphe" && (
                       <p>
-                        {item.contenu} ordre : {item.ordre}
+                        {item.contenu}
                         <button
                           onClick={() =>
                             handleEdit(item.id, item.contenu, item.ordre)
@@ -146,7 +169,7 @@ const Modules = () => {
                     )}
                     {item.type === "sous-titre" && (
                       <h3>
-                        {item.contenu} ordre : {item.ordre}
+                        {item.contenu}
                         <button
                           onClick={() =>
                             handleEdit(item.id, item.contenu, item.ordre)
@@ -208,7 +231,9 @@ const Modules = () => {
                 )}
                 {selectedContenuId ? (
                   <>
-                    <button>Modifier</button>
+                    <button onClick={handleSubmitEdit}>
+                      Valider modification
+                    </button>
                     <button onClick={annulModif}>Annuler</button>
                   </>
                 ) : (
