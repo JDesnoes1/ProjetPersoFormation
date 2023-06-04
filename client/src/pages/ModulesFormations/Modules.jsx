@@ -11,9 +11,10 @@ const Modules = () => {
   const [module, setModule] = useState([]);
   const [moduleId, setModuleId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("paragraphe");
+  const [selectedContenuId, setSelectedContenuId] = useState(null);
   const [inputs, setInputs] = useState({
     contenu: "",
-    ordre: Number(""),
+    ordre: Number(),
   });
 
   const queryClient = useQueryClient();
@@ -47,17 +48,6 @@ const Modules = () => {
     getModuleById();
   }, [moduleId]);
 
-  const addContenuMutation = useMutation(async (newContenu) => {
-    if (selectedOption === "paragraphe") {
-      await makeRequest.post(`paragraphe/${moduleId}`, newContenu);
-    }
-    if (selectedOption === "sous-titre") {
-      await makeRequest.post(`sousTitre/${moduleId}`, newContenu);
-    }
-    queryClient.invalidateQueries(["paragraphes", moduleId]);
-    queryClient.invalidateQueries(["sousTitres", moduleId]);
-  });
-
   const { data: paragraphes, isLoading: isLoadingParagraphes } = useQuery(
     ["paragraphes", moduleId],
     async () => {
@@ -86,24 +76,48 @@ const Modules = () => {
   ];
   combinedData.sort((a, b) => a.ordre - b.ordre);
 
+  const addContenuMutation = useMutation(async (newContenu) => {
+    const dernierContenu = combinedData[combinedData.length - 1];
+    const dernierOrdre = dernierContenu ? dernierContenu.ordre : 0;
+    const nouvelOrdre = dernierOrdre + 1;
+
+    newContenu.ordre = nouvelOrdre;
+
+    if (selectedOption === "paragraphe") {
+      await makeRequest.post(`paragraphe/${moduleId}`, newContenu);
+    }
+    if (selectedOption === "sous-titre") {
+      await makeRequest.post(`sousTitre/${moduleId}`, newContenu);
+    }
+    queryClient.invalidateQueries(["paragraphes", moduleId]);
+    queryClient.invalidateQueries(["sousTitres", moduleId]);
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (moduleId) {
       await addContenuMutation.mutateAsync(inputs);
       setInputs({
         contenu: "",
-        ordre: combinedData.length + 1,
       });
     }
   };
 
-  useEffect(() => {
-    const defaultOrder = combinedData.length + 1;
-    setInputs((prevInputs) => ({
-      ...prevInputs,
-      ordre: defaultOrder,
-    }));
-  }, [combinedData.length]);
+  const annulModif = () => {
+    setSelectedContenuId(null);
+    setInputs({
+      contenu: "",
+    });
+  };
+
+  const handleEdit = (contenuId, contenu, ordre) => {
+    setSelectedContenuId(contenuId);
+    // Réinitialisez les champs du formulaire avec les données sélectionnées
+    setInputs({
+      contenu: contenu,
+      ordre: ordre,
+    });
+  };
 
   return (
     <div>
@@ -120,12 +134,26 @@ const Modules = () => {
                   <div key={item.id}>
                     {item.type === "paragraphe" && (
                       <p>
-                        {item.contenu} <button>Modifier</button>
+                        {item.contenu} ordre : {item.ordre}
+                        <button
+                          onClick={() =>
+                            handleEdit(item.id, item.contenu, item.ordre)
+                          }
+                        >
+                          Modifier
+                        </button>
                       </p>
                     )}
                     {item.type === "sous-titre" && (
                       <h3>
-                        {item.contenu} <button>Modifier</button>
+                        {item.contenu} ordre : {item.ordre}
+                        <button
+                          onClick={() =>
+                            handleEdit(item.id, item.contenu, item.ordre)
+                          }
+                        >
+                          Modifier
+                        </button>
                       </h3>
                     )}
                   </div>
@@ -150,13 +178,15 @@ const Modules = () => {
                   placeholder="Votre sous-titre"
                   value={inputs.contenu}
                 />
-                <input
-                  type="number"
-                  name="ordre"
-                  onChange={handleChange}
-                  placeholder="Ordre"
-                  value={combinedData.length + 1}
-                />
+                {selectedContenuId && (
+                  <input
+                    type="number"
+                    name="ordre"
+                    onChange={handleChange}
+                    placeholder="Ordre"
+                    value={inputs.ordre}
+                  />
+                )}
                 <button onClick={handleSubmit}>Ajouter un sous-titre</button>
               </form>
             ) : (
@@ -167,14 +197,23 @@ const Modules = () => {
                   onChange={handleChange}
                   value={inputs.contenu}
                 ></textarea>
-                <input
-                  type="number"
-                  name="ordre"
-                  onChange={handleChange}
-                  placeholder="Ordre"
-                  value={combinedData.length + 1}
-                />
-                <button onClick={handleSubmit}>Ajouter un paragraphe</button>
+                {selectedContenuId && (
+                  <input
+                    type="number"
+                    name="ordre"
+                    onChange={handleChange}
+                    placeholder="Ordre"
+                    value={inputs.ordre}
+                  />
+                )}
+                {selectedContenuId ? (
+                  <>
+                    <button>Modifier</button>
+                    <button onClick={annulModif}>Annuler</button>
+                  </>
+                ) : (
+                  <button onClick={handleSubmit}>Ajouter un paragraphe</button>
+                )}
               </form>
             )}
           </div>
