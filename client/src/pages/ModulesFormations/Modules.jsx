@@ -12,6 +12,7 @@ const Modules = () => {
   const [moduleId, setModuleId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("paragraphe");
   const [selectedContenuId, setSelectedContenuId] = useState(null);
+  const [selectedType, setSelectedType] = useState();
   const [inputs, setInputs] = useState({
     contenu: "",
     ordre: Number(),
@@ -114,6 +115,7 @@ const Modules = () => {
     updatedContenu.id = selectedContenuId;
     updatedContenu.ordre = inputs.ordre;
     updatedContenu.contenu = inputs.contenu;
+
     if (selectedOption === "paragraphe" && selectedContenuId !== null) {
       await makeRequest.put("paragraphe", updatedContenu);
     }
@@ -121,11 +123,12 @@ const Modules = () => {
       await makeRequest.put("sousTitre", updatedContenu);
     }
     queryClient.invalidateQueries(["paragraphes"]);
-    queryClient.invalidateQueries(["sous-titre"]);
+    queryClient.invalidateQueries(["sousTitres"]);
   });
 
-  const handleEdit = async (contenuId, contenu, ordre) => {
+  const handleEdit = async (contenuId, contenu, ordre, type) => {
     setSelectedContenuId(contenuId);
+    setSelectedOption(type);
     // Réinitialisez les champs du formulaire avec les données sélectionnées
     setInputs({
       contenu: contenu,
@@ -140,6 +143,23 @@ const Modules = () => {
     setInputs({
       contenu: "",
     });
+  };
+
+  const deleteContenuMutation = useMutation(async (contenuId) => {
+    if (selectedOption === "paragraphe") {
+      await makeRequest.delete("paragraphe", contenuId);
+    }
+    if (selectedOption === "sous-titre") {
+      await makeRequest.delete("sousTitre", contenuId);
+    }
+    queryClient.invalidateQueries(["paragraphes"]);
+    queryClient.invalidateQueries(["sousTitres"]);
+  });
+
+  const handleDelete = async (contenuId, type) => {
+    setSelectedOption(type);
+    await deleteContenuMutation.mutateAsync({ id: contenuId });
+    setSelectedOption(null);
   };
 
   return (
@@ -160,10 +180,20 @@ const Modules = () => {
                         {item.contenu}
                         <button
                           onClick={() =>
-                            handleEdit(item.id, item.contenu, item.ordre)
+                            handleEdit(
+                              item.id,
+                              item.contenu,
+                              item.ordre,
+                              item.type
+                            )
                           }
                         >
                           Modifier
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.id, item.type)}
+                        >
+                          Supprimer
                         </button>
                       </p>
                     )}
@@ -172,10 +202,20 @@ const Modules = () => {
                         {item.contenu}
                         <button
                           onClick={() =>
-                            handleEdit(item.id, item.contenu, item.ordre)
+                            handleEdit(
+                              item.id,
+                              item.contenu,
+                              item.ordre,
+                              item.type
+                            )
                           }
                         >
                           Modifier
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.id, item.type)}
+                        >
+                          Supprimer
                         </button>
                       </h3>
                     )}
@@ -210,7 +250,16 @@ const Modules = () => {
                     value={inputs.ordre}
                   />
                 )}
-                <button onClick={handleSubmit}>Ajouter un sous-titre</button>
+                {selectedContenuId ? (
+                  <>
+                    <button onClick={handleSubmitEdit}>
+                      Valider sous-titre
+                    </button>
+                    <button onClick={annulModif}>Annuler Modif</button>
+                  </>
+                ) : (
+                  <button onClick={handleSubmit}>Ajouter un sous-titre</button>
+                )}
               </form>
             ) : (
               <form>
@@ -232,7 +281,7 @@ const Modules = () => {
                 {selectedContenuId ? (
                   <>
                     <button onClick={handleSubmitEdit}>
-                      Valider modification
+                      Valider paragraphe
                     </button>
                     <button onClick={annulModif}>Annuler</button>
                   </>
