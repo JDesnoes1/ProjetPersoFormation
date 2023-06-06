@@ -25,9 +25,9 @@ export const updateSousTitre = (req, res) => {
 export const deleteSousTitre = (req, res) => {
   const q = "DELETE from sous_titres WHERE id = ?";
 
-  db.query(q, [req.body.id], (err, data) => {
+  db.query(q, [req.query.id], (err, data) => {
     if (err) return res.status(500).json(err);
-    return res.status(200).json("Succès ! Le paragraphe a bien été supprimé !");
+    return res.status(200).json("Succès ! Le sous-titre a bien été supprimé !");
   });
 };
 

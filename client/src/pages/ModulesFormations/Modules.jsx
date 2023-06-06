@@ -12,7 +12,7 @@ const Modules = () => {
   const [moduleId, setModuleId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("paragraphe");
   const [selectedContenuId, setSelectedContenuId] = useState(null);
-  const [selectedType, setSelectedType] = useState();
+  const [type, setType] = useState(null);
   const [inputs, setInputs] = useState({
     contenu: "",
     ordre: Number(),
@@ -145,12 +145,12 @@ const Modules = () => {
     });
   };
 
-  const deleteContenuMutation = useMutation(async (contenuId) => {
+  const deleteContenuMutation = useMutation(async (id) => {
     if (selectedOption === "paragraphe") {
-      await makeRequest.delete("paragraphe", contenuId);
+      await makeRequest.delete(`paragraphe?id=${id}`);
     }
     if (selectedOption === "sous-titre") {
-      await makeRequest.delete("sousTitre", contenuId);
+      await makeRequest.delete(`sousTitre?id=${id}`);
     }
     queryClient.invalidateQueries(["paragraphes"]);
     queryClient.invalidateQueries(["sousTitres"]);
@@ -158,8 +158,7 @@ const Modules = () => {
 
   const handleDelete = async (contenuId, type) => {
     setSelectedOption(type);
-    await deleteContenuMutation.mutateAsync({ id: contenuId });
-    setSelectedOption(null);
+    await deleteContenuMutation.mutateAsync(contenuId);
   };
 
   return (

@@ -25,7 +25,7 @@ export const updateParagraphe = (req, res) => {
 export const deleteParagraphe = (req, res) => {
   const q = "DELETE FROM paragraphes WHERE id = ?";
 
-  db.query(q, [req.body.id], (err, data) => {
+  db.query(q, [req.query.id], (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json("Succès ! Le paragraphe a bien été supprimé !");
   });
