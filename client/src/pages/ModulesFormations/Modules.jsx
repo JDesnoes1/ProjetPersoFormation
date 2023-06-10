@@ -12,12 +12,24 @@ const Modules = () => {
   const [moduleId, setModuleId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("paragraphe");
   const [selectedContenuId, setSelectedContenuId] = useState(null);
+  const [file, setFile] = useState(null);
   const [inputs, setInputs] = useState({
     contenu: "",
     ordre: Number(),
   });
 
   const queryClient = useQueryClient();
+
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("upload", formData);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   //Methode qui permet de récupérer les différents éléments que l'admin mettra dans le formulaire, permet d'ajouter les éléments en base de données
   const handleChange = async (e) => {
