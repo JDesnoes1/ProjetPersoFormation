@@ -239,8 +239,14 @@ const Modules = () => {
               <select value={selectedOption} onChange={handleOptionChange}>
                 <option value="paragraphe">Paragraphe</option>
                 <option value="sous-titre">Sous-titre</option>
+                <option value="media">Media</option>
               </select>
             </div>
+            {selectedOption === "media" && (
+              <form>
+                <input type="file" name="contenu" />
+              </form>
+            )}
             {selectedOption === "sous-titre" ? (
               <form>
                 <input
@@ -271,33 +277,37 @@ const Modules = () => {
                 )}
               </form>
             ) : (
-              <form>
-                <textarea
-                  name="contenu"
-                  placeholder="Votre paragraphe ici"
-                  onChange={handleChange}
-                  value={inputs.contenu}
-                ></textarea>
-                {selectedContenuId && (
-                  <input
-                    type="number"
-                    name="ordre"
+              selectedOption === "paragraphe" && (
+                <form>
+                  <textarea
+                    name="contenu"
+                    placeholder="Votre paragraphe ici"
                     onChange={handleChange}
-                    placeholder="Ordre"
-                    value={inputs.ordre}
-                  />
-                )}
-                {selectedContenuId ? (
-                  <>
-                    <button onClick={handleSubmitEdit}>
-                      Valider paragraphe
+                    value={inputs.contenu}
+                  ></textarea>
+                  {selectedContenuId && (
+                    <input
+                      type="number"
+                      name="ordre"
+                      onChange={handleChange}
+                      placeholder="Ordre"
+                      value={inputs.ordre}
+                    />
+                  )}
+                  {selectedContenuId ? (
+                    <>
+                      <button onClick={handleSubmitEdit}>
+                        Valider paragraphe
+                      </button>
+                      <button onClick={annulModif}>Annuler</button>
+                    </>
+                  ) : (
+                    <button onClick={handleSubmit}>
+                      Ajouter un paragraphe
                     </button>
-                    <button onClick={annulModif}>Annuler</button>
-                  </>
-                ) : (
-                  <button onClick={handleSubmit}>Ajouter un paragraphe</button>
-                )}
-              </form>
+                  )}
+                </form>
+              )
             )}
           </div>
         </div>
